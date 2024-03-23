@@ -1,6 +1,4 @@
-import "./App.css";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import copyIcon from "./image/1621635.png";
 import {
   MeetingProvider,
   MeetingConsumer,
@@ -33,24 +31,28 @@ function JoinScreen({ getMeetingAndToken }) {
     }
   };
   return (
-    <div className="wrapper">
-      <input
-        className="inputUrl"
-        type="text"
-        placeholder="Id kiriting"
-        onChange={(e) => {
-          setMeetingId(e.target.value);
-        }}
-      />
-      <button className="Join" onClick={onClickAdd}>
-        Qo'shiling
-      </button>
-      <h3 style={{ fontWeight: "600", fontSize: "32px", textAlign: "center" }}>
-        {" YOKI "}
-      </h3>
-      <button className="Join1" onClick={onClick}>
-        Uchrashuv Yarating
-      </button>
+    <div className="h-[100vh] flex flex-col gap-4 items-center justify-center">
+      <div className="flex flex-col gap-4 items-center justify-center">
+        <input
+          className="input border-2 border-orange-700 text-black"
+          type="text"
+          placeholder="Idingizni kiriting"
+          onChange={(e) => {
+            setMeetingId(e.target.value);
+          }}
+        />
+        <div className="flex gap-4">
+          <button
+            className="btn border-2 border-orange-700"
+            onClick={onClickAdd}
+          >
+            Videochatga qo'shilish
+          </button>
+          <button className="btn border-2 border-orange-700" onClick={onClick}>
+            Uchrashuv Yaratish
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -58,7 +60,7 @@ function JoinScreen({ getMeetingAndToken }) {
 function ParticipantView(props) {
   const { firstName, id } = props;
   let copied = firstName.find((el) => el.id == id).name;
-  console.log(copied);
+  // console.log(copied);
   const micRef = useRef(null);
   const { webcamStream, micStream, webcamOn, micOn, isLocal, displayName } =
     useParticipant(props.participantId);
@@ -91,22 +93,29 @@ function ParticipantView(props) {
 
   return (
     <div style={{ display: "flex", flexWrap: "wrap", flexFlow: "column" }}>
-      <div style={{ fontSize: "24px" }}>
+      <div className="flex gap-4 text-2xl mt-4 items-center">
         <b>Ishtirokchi: </b>
-        <span style={{ color: "blue", fontSize: "28px", fontWeight: "600" }}>
-          {copied}
-        </span>{" "}
-        <span style={{ color: "black" }}>||</span> <b>Webcam:</b>{" "}
+        <span className="text-blue-500 text-2xl">{copied}</span>
+        ||
+        <b>Camera:</b>
         {webcamOn ? (
-          <span style={{ color: "green" }}>ON</span>
+          <span className="text-green-500 bg-white bg-opacity-80 rounded-lg py-1 px-4">
+            Yoniq
+          </span>
         ) : (
-          <span style={{ color: "red" }}>OFF</span>
-        )}{" "}
-        <span style={{ color: "black" }}>||</span> <b>Mic:</b>{" "}
+          <span className="text-red-500 bg-white bg-opacity-80 rounded-lg py-1 px-4">
+            O'chiq
+          </span>
+        )}
+        || <b>Micrafon:</b>
         {micOn ? (
-          <span style={{ color: "green" }}>ON</span>
+          <span className="text-green-500 bg-white bg-opacity-80 rounded-lg py-1 px-4">
+            Yoniq
+          </span>
         ) : (
-          <span style={{ color: "red" }}>OFF</span>
+          <span className="text-red-500 bg-white bg-opacity-80 rounded-lg py-1 px-4">
+            O'chiq
+          </span>
         )}
       </div>
       <audio ref={micRef} autoPlay playsInline muted={isLocal} />
@@ -136,19 +145,19 @@ function ParticipantView(props) {
 function Controls() {
   const { leave, toggleMic, toggleWebcam } = useMeeting();
   return (
-    <div className="General">
+    <div className="flex gap-4 justify-center">
       <button
         style={{ background: "red" }}
-        className="buttonAdd"
+        className="btn"
         onClick={() => leave()}
       >
-        Leave
+        Chatni tark etish
       </button>
-      <button className="buttonAdd" onClick={() => toggleMic()}>
-        toggleMic
+      <button className="btn" onClick={() => toggleMic()}>
+        Micrafonni yoqish
       </button>
-      <button className="buttonAdd" onClick={() => toggleWebcam()}>
-        toggleWebcam
+      <button className="btn" onClick={() => toggleWebcam()}>
+        Camerani yoqish
       </button>
     </div>
   );
@@ -199,31 +208,26 @@ function MeetingView(props) {
   };
 
   return (
-    <div className="container">
-      <h3 className="titleH3">
-        <h2>Ushbu tokendan foydalaning:</h2>
+    <div className="h-[100vh] flex flex-col gap-4 items-center justify-center">
+      <h2 className="text-2xl">Ushbu tokendan foydalaning:</h2>
+      <div className="bg-opacity-70 bg-white p-2 rounded-lg">
         <a
           onClick={() => {
             navigator.clipboard.writeText(props.meetingId);
           }}
-          style={{
-            color: "blue",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-          }}
-          className="href"
+          className="text-red-500 cursor-pointer flex items-center gap-2"
           title="Bosing va nusxa oling"
         >
           {props.meetingId}
-          <img src={copyIcon} width={20} />
+          <span className="bg-blue-500 rounded-lg px-4 text-white">
+            nusxa olish
+          </span>
         </a>
-      </h3>
+      </div>
       {ipt && (
         <input
           ref={name}
-          className="inputUrl"
+          className="input text-black"
           placeholder="Ismingizni kiriting"
         ></input>
       )}
@@ -244,7 +248,7 @@ function MeetingView(props) {
       ) : joined && joined == "JOINING" ? (
         <ScaleLoader style={{ marginTop: "60px" }} color="#36d7b7" />
       ) : (
-        <button className="Joins" onClick={joinMeeting}>
+        <button className="btn" onClick={joinMeeting}>
           Qo'shiling
         </button>
       )}
@@ -255,14 +259,12 @@ function MeetingView(props) {
 function Container() {
   const [meetingId, setMeetingId] = useState(null);
 
-  //Getting the meeting id by calling the api we just wrote
   const getMeetingAndToken = async (id) => {
     const meetingId =
       id == null ? await createMeeting({ token: authToken }) : id;
     setMeetingId(meetingId);
   };
 
-  //This will set Meeting Id to null when meeting is left or ended
   const onMeetingLeave = () => {
     setMeetingId(null);
   };
