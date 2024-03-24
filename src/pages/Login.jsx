@@ -45,7 +45,7 @@ function Login() {
       const email = emailRef.current.value.trim();
       const password = passwordRef.current.value.trim();
 
-      const storedUser = JSON.parse(localStorage.getItem("user"));
+      const storedUser = JSON.parse(localStorage.getItem("user1"));
 
       if (
         storedUser &&

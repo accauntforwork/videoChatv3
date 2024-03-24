@@ -5,11 +5,11 @@ import Register from "./pages/Register";
 import Videochat from "./pages/videochat";
 
 function useAuthentication() {
-  const [user, setUser] = useState(localStorage.getItem("user"));
+  const [user, setUser] = useState(localStorage.getItem("user1"));
 
   useEffect(() => {
-    if (localStorage.getItem("user")) {
-      setUser(localStorage.getItem("user"));
+    if (localStorage.getItem("user1")) {
+      setUser(localStorage.getItem("user1"));
     }
   }, []);
 

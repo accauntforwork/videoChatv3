@@ -54,7 +54,7 @@ function Register() {
       const email = emailRef.current.value.trim();
       const password = passwordRef.current.value.trim();
 
-      localStorage.setItem("user", JSON.stringify({ email, password }));
+      localStorage.setItem("user1", JSON.stringify({ email, password }));
 
       setIsLoading(false);
       navigate("/login");
